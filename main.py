@@ -145,27 +145,56 @@ class Shoes:
 
 def main():
     temperature = 0  # get from weather API
-    clotheOptions = []
+    topClothes = []
+    bottomClothes = []
+    dresses = []
+    shoes = []
     if (temperature >= 65):
-        clotheOptions.append(Tops.getSubCategory("Short Sleeves"))
+        topClothes.append(Tops.getSubCategory("Short Sleeves"))
     if (temperature < 65):
-        clotheOptions.append(Tops.getSubCategory("Long Sleeves"))
+        topClothes.append(Tops.getSubCategory("Long Sleeves"))
     if (temperature < 40):
-        clotheOptions.append(Tops.getSubCategory("Jackets"))
+        topClothes.append(Tops.getSubCategory("Jackets"))
 
     if (temperature >= 60):
-        clotheOptions.append(Bottoms.getSubCategory("Shorts"))
+        bottomClothes.append(Bottoms.getSubCategory("Shorts"))
     else:
-        clotheOptions.append(Bottoms.getSubCategory("Pants"))
+        bottomClothes.append(Bottoms.getSubCategory("Pants"))
 
     if (temperature >= 70):
-        clotheOptions.append(Dresses.getSubCategory("Dresses"))
-        clotheOptions.append(Shoes.getSubCategory("Open Toe"))
+        dresses.append(Dresses.getSubCategory("Dresses"))
+        shoes.append(Shoes.getSubCategory("Open Toe"))
     else:
-        clotheOptions.append(Shoes.getSubCategory("Closed Toe"))
+        shoes.append(Shoes.getSubCategory("Closed Toe"))
 
+    index = random.random() * len(bottomClothes)
+    bottomClothingItem = bottomClothes[0][index]
 
+    tempTops = topClothes[0]
+    topClothingItem = ""
+    while (len(tempTops) > 0):
+        index = random.random()  * len(tempTops)
+        topClothingItem = tempTops[index]
+        for x in bottomClothingItem.colorsInImg:
+            for y in topClothingItem.colorsInImg:
+                if (x > y - 40 & x < y + 40):
+                    bottomClothingItem = x
+                    topClothingItem = y
+                    break
+                if (x < 865 / 2):
+                    x = x + 432
+                    if (x > y - 40 & x < y + 40):
+                        bottomClothingItem = x
+                        topClothingItem = y
+                        break
+                else:
+                    x = x - 432
+                    if (x > y - 40 & x < y + 40):
+                        bottomClothingItem = x
+                        topClothingItem = y
+                        break
 
+    return topClothingItem & bottomClothingItem
 
 
 if __name__ == "__main__":
