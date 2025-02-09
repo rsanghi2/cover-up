@@ -2,6 +2,9 @@ from array import *
 import cv2
 import pandas as pd
 import numpy as np
+import pyautogui
+import random
+
 
 # -*- coding: utf-8 -*-
 """
@@ -42,6 +45,19 @@ def colorname(B, G, R):
 cv2.namedWindow("Image")
 cv2.setMouseCallback("Image", getRGBvalue)
 
+colorsInImg = []
+
+# add five random colors to the array of colors for the clothing item
+for i in 4:
+    object_x = random.random() * 10
+    object_y = random.random() * 10
+    mouse_x, mouse_y = pyautogui.position()
+    pyautogui.moveTo(mouse_x + object_x, mouse_y + object_y, 0.25)
+    cv2.imshow("Image", img)
+    cv2.rectangle(img, (20, 20), (imgWidth, 60), (b, g, r), -1)
+    text = colorname(b, g, r) + '   R=' + str(r) + ' G=' + str(g) + ' B=' + str(b)
+    colorsInImg.append(text)
+
 while True:
     cv2.imshow("Image", img)
     cv2.rectangle(img, (20, 20), (imgWidth, 60), (b, g, r), -1)
@@ -54,15 +70,13 @@ while True:
 
 cv2.destroyAllWindows()
 
-# CoverUp original code
 
 class Tops:
     # 0 row is short sleeves
     # 1 row in long sleeves
     # 2 row is jackets
     def __init__(self):
-        self.tops = array(array())
-
+        self.tops = [[]]
     def __add__(self, type, name):
         if (type == "Short Sleeves"):
             self.tops[0].append(name)
@@ -82,7 +96,7 @@ class Tops:
 class Dresses:
     # 0 row is dresses
     def __init__(self):
-        self.dresses = array(array())
+        self.dresses = [[]]
 
     def __add__(self, name):
         self.dresses.append[0](name)
@@ -95,7 +109,7 @@ class Bottoms:
     # 0 row is shorts
     # 1 row is pants
     def __init__(self):
-        self.bottoms = array(array())
+        self.bottoms = [[]]
 
     def __add__(self, type, name):
         if (type == "Short"):
@@ -113,7 +127,7 @@ class Shoes:
     # 0 row is open toe
     # 1 row is closed toe
     def __init__(self):
-        self.shoes = array(array())
+        self.shoes = [[]]
 
     def __add__(self, type, name):
         if (type == "Open Toe"):
@@ -131,7 +145,7 @@ class Shoes:
 
 def main():
     temperature = 0  # get from weather API
-    clotheOptions = array()
+    clotheOptions = []
     if (temperature >= 65):
         clotheOptions.append(Tops.getSubCategory("Short Sleeves"))
     if (temperature < 65):
@@ -149,6 +163,8 @@ def main():
         clotheOptions.append(Shoes.getSubCategory("Open Toe"))
     else:
         clotheOptions.append(Shoes.getSubCategory("Closed Toe"))
+
+
 
 
 
